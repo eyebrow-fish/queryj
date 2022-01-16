@@ -1,7 +1,7 @@
 package fish.eyebrow.queryj.querytree;
 
-import fish.eyebrow.queryj.querypane.QueryPane;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TreeView;
 
 import java.io.IOException;
@@ -17,7 +17,7 @@ public class QueryTree extends TreeView<String> {
         controller = fxmlLoader.getController();
     }
 
-    public void setQueryPane(QueryPane queryPane) {
-        controller.setQueryPane(queryPane);
+    public void setQueryTabPane(TabPane queryTabPane) {
+        controller.setQueryTabPane(queryTabPane);
     }
 }

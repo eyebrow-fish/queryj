@@ -1,5 +1,6 @@
 package fish.eyebrow.queryj.querypane;
 
+import fish.eyebrow.queryj.querytree.QueryTreeItem;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -16,6 +17,8 @@ public class QueryPaneController {
     @FXML
     private TextArea bodyArea;
 
+    private QueryTreeItem.Query query;
+
     @FXML
     private void initialize() {
         methodSelect.getItems().addAll("PUT", "GET", "DELETE");
@@ -26,35 +29,16 @@ public class QueryPaneController {
         System.out.printf("%s %s - %s\n", methodSelect.getValue(), urlField.getText(), bodyArea.getText());
     }
 
-    public ComboBox<String> getMethodSelect() {
-        return methodSelect;
+    @FXML
+    private void updateQuery() {
+        query.setMethod(methodSelect.getValue());
+        query.setUrl(urlField.getText());
     }
 
-    public void setMethodSelect(ComboBox<String> methodSelect) {
-        this.methodSelect = methodSelect;
-    }
-
-    public TextField getUrlField() {
-        return urlField;
-    }
-
-    public void setUrlField(TextField urlField) {
-        this.urlField = urlField;
-    }
-
-    public Button getSendButton() {
-        return sendButton;
-    }
-
-    public void setSendButton(Button sendButton) {
-        this.sendButton = sendButton;
-    }
-
-    public TextArea getBodyArea() {
-        return bodyArea;
-    }
-
-    public void setBodyArea(TextArea bodyArea) {
-        this.bodyArea = bodyArea;
+    public void setQuery(QueryTreeItem.Query query) {
+        this.query = query;
+        methodSelect.setValue(query.getMethod());
+        urlField.setText(query.getUrl());
+        bodyArea.setText(query.getBody());
     }
 }

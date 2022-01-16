@@ -8,8 +8,8 @@
          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
          xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
     <HBox spacing="4.0">
-        <ComboBox fx:id="methodSelect"/>
-        <TextField fx:id="urlField" promptText="https://example.org" HBox.hgrow="ALWAYS"/>
+        <ComboBox fx:id="methodSelect" onAction="#updateQuery"/>
+        <TextField fx:id="urlField" onAction="#updateQuery" promptText="https://example.org" HBox.hgrow="ALWAYS"/>
         <Button fx:id="sendButton" onAction="#sendRequest" text="Send"/>
         <padding>
             <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>

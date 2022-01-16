@@ -4,17 +4,20 @@ import fish.eyebrow.queryj.querypane.QueryPane;
 import fish.eyebrow.queryj.querytree.util.TreeItemUtil;
 import fish.eyebrow.queryj.querytree.util.TreeViewUtil;
 import javafx.fxml.FXML;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.cell.TextFieldTreeCell;
 import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class QueryTreeController {
     @FXML
     private QueryTree queryTree;
-    private QueryPane queryPane;
+    private TabPane queryTabPane;
     private RenameDialog renameDialog;
 
     private QueryTreeContextMenu queryTreeContextMenu;
@@ -53,19 +56,26 @@ public class QueryTreeController {
                 String qualifiedName = TreeItemUtil.qualifiedNameOf(TreeViewUtil.currentSelection(queryTree));
                 QueryTreeItem queryTreeItem = QueryTreeItem.findQueryTreeItem(queryTreeItems, qualifiedName);
                 if (queryTreeItem instanceof (QueryTreeItem.Query query)) {
-                    queryPane.setMethod(query.getMethod());
-                    queryPane.setURL(query.getUrl());
-                    queryPane.setBody(query.getBody());
+                    Optional<Tab> optionalTab = queryTabPane.getTabs()
+                            .stream()
+                            .filter(tab -> tab.getText().equals(query.getName()))
+                            .findFirst();
+
+                    if (optionalTab.isEmpty()) {
+                        queryTabPane.getTabs().add(new Tab(query.getName(), new QueryPane(query)));
+                    } else {
+                        queryTabPane.getSelectionModel().select(optionalTab.get());
+                    }
                 }
             }
             case SECONDARY -> {
                 queryTreeContextMenu = new QueryTreeContextMenu(queryTree, queryTreeItems, renameDialog);
-                queryTreeContextMenu.show(queryPane, event.getScreenX(), event.getScreenY());
+                queryTreeContextMenu.show(queryTabPane, event.getScreenX(), event.getScreenY());
             }
         }
     }
 
-    public void setQueryPane(QueryPane queryPane) {
-        this.queryPane = queryPane;
+    public void setQueryTabPane(TabPane queryTabPane) {
+        this.queryTabPane = queryTabPane;
     }
 }

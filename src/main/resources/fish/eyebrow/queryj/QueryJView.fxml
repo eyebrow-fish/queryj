@@ -3,7 +3,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import fish.eyebrow.queryj.querypane.QueryPane?>
 <?import fish.eyebrow.queryj.querytree.QueryTree?>
 
 <SplitPane dividerPositions="0.2" prefWidth="443.0" xmlns="http://javafx.com/javafx/16"
@@ -17,6 +16,7 @@
         </ScrollPane>
     </AnchorPane>
     <AnchorPane>
-        <QueryPane fx:id="queryPane"/>
+        <TabPane fx:id="queryTabPane" AnchorPane.bottomAnchor="0.0"
+                 AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
     </AnchorPane>
 </SplitPane>
