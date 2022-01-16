@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root fx:controller="fish.eyebrow.queryj.querypane.QueryPaneController" spacing="4.0" type="VBox" AnchorPane.bottomAnchor="0.0"
+         AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
+         xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+    <HBox spacing="4.0">
+        <ComboBox fx:id="methodSelect"/>
+        <TextField fx:id="urlField" promptText="https://example.org" HBox.hgrow="ALWAYS"/>
+        <Button fx:id="sendButton" onAction="#sendRequest" text="Send"/>
+        <padding>
+            <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
+        </padding>
+    </HBox>
+    <ScrollPane fitToHeight="true" fitToWidth="true" VBox.vgrow="ALWAYS">
+        <AnchorPane>
+            <TextArea fx:id="bodyArea" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                      AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+        </AnchorPane>
+    </ScrollPane>
+</fx:root>

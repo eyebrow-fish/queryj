@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import fish.eyebrow.queryj.querypane.QueryPane?>
+<?import fish.eyebrow.queryj.querytree.QueryTree?>
+
+<SplitPane dividerPositions="0.2" prefWidth="443.0" xmlns="http://javafx.com/javafx/16"
+           xmlns:fx="http://javafx.com/fxml/1" fx:controller="fish.eyebrow.queryj.QueryViewController">
+    <AnchorPane>
+        <ScrollPane fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                    AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane>
+                <QueryTree fx:id="queryTree"/>
+            </AnchorPane>
+        </ScrollPane>
+    </AnchorPane>
+    <AnchorPane>
+        <QueryPane fx:id="queryPane" method="PUT"/>
+    </AnchorPane>
+</SplitPane>
