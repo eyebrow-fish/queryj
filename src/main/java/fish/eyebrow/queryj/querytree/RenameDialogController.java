@@ -23,31 +23,7 @@ public class RenameDialogController {
         String qualifiedName = TreeItemUtil.qualifiedNameOf(treeItem);
         QueryTreeItem queryTreeItem = QueryTreeItem.findQueryTreeItem(queryTreeItems, qualifiedName);
 
-        if (queryTreeItem != null) {
-            QueryTreeItem newItem = switch (queryTreeItem) {
-                case QueryTreeItem.Query query -> new QueryTreeItem.Query(
-                        newName,
-                        query.method(),
-                        query.url(),
-                        query.body(),
-                        query.parent()
-                );
-                case QueryTreeItem.QueryGroup group -> new QueryTreeItem.QueryGroup(
-                        newName,
-                        group.parent(),
-                        group.children()
-                );
-            };
-
-            if (queryTreeItem.parent() instanceof QueryTreeItem.QueryGroup parentGroup) {
-                parentGroup.children().remove(queryTreeItem);
-                parentGroup.children().add(newItem);
-            } else if (queryTreeItem.parent() == null) {
-                queryTreeItems.remove(queryTreeItem);
-                queryTreeItems.add(newItem);
-            }
-        }
-
+        queryTreeItem.setName(newName);
         treeItem.setValue(newName);
 
         close();

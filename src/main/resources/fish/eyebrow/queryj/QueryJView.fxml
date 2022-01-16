@@ -17,6 +17,6 @@
         </ScrollPane>
     </AnchorPane>
     <AnchorPane>
-        <QueryPane fx:id="queryPane" method="PUT"/>
+        <QueryPane fx:id="queryPane"/>
     </AnchorPane>
 </SplitPane>

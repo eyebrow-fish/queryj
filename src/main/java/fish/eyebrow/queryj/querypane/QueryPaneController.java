@@ -17,13 +17,13 @@ public class QueryPaneController {
     private TextArea bodyArea;
 
     @FXML
-    private void sendRequest() {
-        System.out.printf("%s %s - %s\n", methodSelect.getValue(), urlField.getText(), bodyArea.getText());
+    private void initialize() {
+        methodSelect.getItems().addAll("PUT", "GET", "DELETE");
     }
 
     @FXML
-    private void initialize() {
-        methodSelect.getItems().addAll("PUT", "GET", "DELETE");
+    private void sendRequest() {
+        System.out.printf("%s %s - %s\n", methodSelect.getValue(), urlField.getText(), bodyArea.getText());
     }
 
     public ComboBox<String> getMethodSelect() {

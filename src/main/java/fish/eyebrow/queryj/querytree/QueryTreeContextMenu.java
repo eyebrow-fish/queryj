@@ -68,8 +68,8 @@ public class QueryTreeContextMenu extends ContextMenu {
 
         String qualifiedName = TreeItemUtil.qualifiedNameOf(treeItem);
         QueryTreeItem queryTreeItem = QueryTreeItem.findQueryTreeItem(queryTreeItems, qualifiedName);
-        if (queryTreeItem != null && (queryTreeItem.parent() instanceof QueryTreeItem.QueryGroup parentGroup)) {
-            parentGroup.children().remove(queryTreeItem);
+        if (queryTreeItem != null && (queryTreeItem.getParent() instanceof QueryTreeItem.QueryGroup parentGroup)) {
+            parentGroup.getChildren().remove(queryTreeItem);
         }
 
         TreeItem<String> parent = treeItem.getParent();
@@ -89,7 +89,7 @@ public class QueryTreeContextMenu extends ContextMenu {
         if (queryTreeItem instanceof QueryTreeItem.QueryGroup group) {
             QueryTreeItem.QueryGroup newGroup = new QueryTreeItem.QueryGroup("New group", group, new ArrayList<>());
 
-            group.children().add(newGroup);
+            group.getChildren().add(newGroup);
             treeItem.getChildren().add(newGroupItem);
             treeItem.setExpanded(true);
 
@@ -112,7 +112,7 @@ public class QueryTreeContextMenu extends ContextMenu {
         if (queryTreeItem instanceof QueryTreeItem.QueryGroup group) {
             QueryTreeItem.Query newQuery = new QueryTreeItem.Query("New query", "PUT", "" ,"" ,group);
 
-            group.children().add(newQuery);
+            group.getChildren().add(newQuery);
             treeItem.getChildren().add(newQueryItem);
             treeItem.setExpanded(true);
 

@@ -5,7 +5,6 @@ import fish.eyebrow.queryj.querytree.util.TreeItemUtil;
 import fish.eyebrow.queryj.querytree.util.TreeViewUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.TextFieldTreeCell;
 import javafx.scene.input.MouseEvent;
 
@@ -54,9 +53,9 @@ public class QueryTreeController {
                 String qualifiedName = TreeItemUtil.qualifiedNameOf(TreeViewUtil.currentSelection(queryTree));
                 QueryTreeItem queryTreeItem = QueryTreeItem.findQueryTreeItem(queryTreeItems, qualifiedName);
                 if (queryTreeItem instanceof (QueryTreeItem.Query query)) {
-                    queryPane.setMethod(query.method());
-                    queryPane.setURL(query.url());
-                    queryPane.setBody(query.body());
+                    queryPane.setMethod(query.getMethod());
+                    queryPane.setURL(query.getUrl());
+                    queryPane.setBody(query.getBody());
                 }
             }
             case SECONDARY -> {
