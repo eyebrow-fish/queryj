@@ -24,7 +24,7 @@ public class QueryTreeController {
     private final ArrayList<QueryTreeItem> queryTreeItems = new ArrayList<>();
 
     @FXML
-    private void initialize() throws IOException {
+    private void initialize() {
         renameDialog = new RenameDialog();
 
         queryTree.setOnMouseClicked(this::handleTreeClick);
@@ -60,6 +60,7 @@ public class QueryTreeController {
                             .stream()
                             .filter(tab -> tab.getText().equals(query.getName()))
                             .findFirst();
+
 
                     if (optionalTab.isEmpty()) {
                         queryTabPane.getTabs().add(new Tab(query.getName(), new QueryPane(query)));

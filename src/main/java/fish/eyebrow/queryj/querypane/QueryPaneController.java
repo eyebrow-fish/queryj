@@ -2,10 +2,14 @@ package fish.eyebrow.queryj.querypane;
 
 import fish.eyebrow.queryj.querytree.QueryTreeItem;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import kong.unirest.HttpRequestWithBody;
+import kong.unirest.HttpResponse;
+import kong.unirest.Unirest;
+
+import java.util.concurrent.CompletableFuture;
 
 public class QueryPaneController {
     @FXML
@@ -13,26 +17,35 @@ public class QueryPaneController {
     @FXML
     private TextField urlField;
     @FXML
-    private Button sendButton;
-    @FXML
     private TextArea bodyArea;
+    @FXML
+    private OutputPane outputPane;
 
     private QueryTreeItem.Query query;
 
     @FXML
     private void initialize() {
-        methodSelect.getItems().addAll("PUT", "GET", "DELETE");
+        methodSelect.getItems().addAll("PUT", "POST", "GET", "DELETE", "OPTIONS");
+        methodSelect.valueProperty().addListener((__, ___, s) -> query.setMethod(s));
+        urlField.textProperty().addListener((__, ___, s) -> query.setUrl(s));
+        bodyArea.textProperty().addListener((__, ___, s) -> query.setBody(s));
     }
 
     @FXML
     private void sendRequest() {
-        System.out.printf("%s %s - %s\n", methodSelect.getValue(), urlField.getText(), bodyArea.getText());
-    }
+        HttpRequestWithBody request = Unirest.request(query.getMethod(), query.getUrl());
 
-    @FXML
-    private void updateQuery() {
-        query.setMethod(methodSelect.getValue());
-        query.setUrl(urlField.getText());
+        CompletableFuture<HttpResponse<String>> responseFuture;
+        if (query.getMethod().equals("PUT") || query.getMethod().equals("POST")) {
+            responseFuture = request.body(query.getBody()).asStringAsync();
+        } else {
+            responseFuture = request.asStringAsync();
+        }
+
+        responseFuture.thenAccept(response -> {
+            outputPane.setResponseStatusText(response.getStatusText());
+            outputPane.printLine(response.getBody());
+        });
     }
 
     public void setQuery(QueryTreeItem.Query query) {

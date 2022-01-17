@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root type="VBox" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+         AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+         fx:controller="fish.eyebrow.queryj.querypane.OutputPaneController">
+    <BorderPane>
+        <right>
+            <Button mnemonicParsing="false" onAction="#clear" text="Clear" BorderPane.alignment="CENTER"/>
+        </right>
+        <padding>
+            <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
+        </padding>
+        <left>
+            <Label fx:id="responseStatusLabel" BorderPane.alignment="CENTER"/>
+        </left>
+    </BorderPane>
+    <TextArea fx:id="outputArea" editable="false" VBox.vgrow="ALWAYS"/>
+</fx:root>

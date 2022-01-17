@@ -1,19 +1,15 @@
 package fish.eyebrow.queryj.querytree;
 
+import fish.eyebrow.queryj.util.FXMLLoaderUtil;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TreeView;
 
-import java.io.IOException;
-
 public class QueryTree extends TreeView<String> {
     private final QueryTreeController controller;
 
-    public QueryTree() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("QueryTree.fxml"));
-        fxmlLoader.setRoot(this);
-        fxmlLoader.load();
-
+    public QueryTree() {
+        FXMLLoader fxmlLoader = FXMLLoaderUtil.loadFromResource(this, getClass().getResource("QueryTree.fxml"));
         controller = fxmlLoader.getController();
     }
 

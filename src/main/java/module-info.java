@@ -1,6 +1,7 @@
 module fish.eyebrow.queryj {
     requires javafx.fxml;
     requires javafx.controls;
+    requires unirest.java;
 
     exports fish.eyebrow.queryj;
     opens fish.eyebrow.queryj;

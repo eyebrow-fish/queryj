@@ -1,21 +1,13 @@
 package fish.eyebrow.queryj.querypane;
 
 import fish.eyebrow.queryj.querytree.QueryTreeItem;
+import fish.eyebrow.queryj.util.FXMLLoaderUtil;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.SplitPane;
 
-import java.io.IOException;
-
-public class QueryPane extends VBox {
-
+public class QueryPane extends SplitPane {
     public QueryPane(QueryTreeItem.Query query) {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("QueryPane.fxml"));
-        fxmlLoader.setRoot(this);
-        try {
-            fxmlLoader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        FXMLLoader fxmlLoader = FXMLLoaderUtil.loadFromResource(this, getClass().getResource("QueryPane.fxml"));
 
         QueryPaneController controller = fxmlLoader.getController();
         controller.setQuery(query);
