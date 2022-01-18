@@ -1,6 +1,5 @@
 package fish.eyebrow.queryj.querytree;
 
-import fish.eyebrow.queryj.querytree.util.TreeItemUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
@@ -13,19 +12,12 @@ public class RenameDialogController {
     private TextField renameField;
 
     private Stage stage;
-    private TreeItem<String> treeItem;
-    private ArrayList<QueryTreeItem> queryTreeItems;
+    private TreeItem<QueryTreeItem> treeItem;
 
     @FXML
     private void submit() {
         String newName = renameField.getText();
-
-        String qualifiedName = TreeItemUtil.qualifiedNameOf(treeItem);
-        QueryTreeItem queryTreeItem = QueryTreeItem.findQueryTreeItem(queryTreeItems, qualifiedName);
-
-        queryTreeItem.setName(newName);
-        treeItem.setValue(newName);
-
+        treeItem.getValue().setName(newName);
         close();
     }
 
@@ -33,27 +25,18 @@ public class RenameDialogController {
     private void close() {
         stage.hide();
         treeItem = null;
-        queryTreeItems = null;
     }
 
     public TextField getRenameField() {
         return renameField;
     }
 
-    public TreeItem<String> getTreeItem() {
+    public TreeItem<QueryTreeItem> getTreeItem() {
         return treeItem;
     }
 
-    public void setTreeItem(TreeItem<String> treeItem) {
+    public void setTreeItem(TreeItem<QueryTreeItem> treeItem) {
         this.treeItem = treeItem;
-    }
-
-    public ArrayList<QueryTreeItem> getQueryTreeItems() {
-        return queryTreeItems;
-    }
-
-    public void setQueryTreeItems(ArrayList<QueryTreeItem> queryTreeItems) {
-        this.queryTreeItems = queryTreeItems;
     }
 
     public Stage getStage() {

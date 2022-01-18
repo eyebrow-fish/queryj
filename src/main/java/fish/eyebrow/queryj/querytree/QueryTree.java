@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TreeView;
 
-public class QueryTree extends TreeView<String> {
+public class QueryTree extends TreeView<QueryTreeItem> {
     private final QueryTreeController controller;
 
     public QueryTree() {

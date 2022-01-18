@@ -8,8 +8,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-
 public class RenameDialog extends BorderPane {
     private final Stage stage;
     private final RenameDialogController controller;
@@ -25,12 +23,11 @@ public class RenameDialog extends BorderPane {
         controller.setStage(stage);
     }
 
-    public void show(TreeItem<String> treeItem, ArrayList<QueryTreeItem> queryTreeItems) {
-        controller.getRenameField().setText(treeItem.getValue());
+    public void show(TreeItem<QueryTreeItem> treeItem) {
+        controller.getRenameField().setText(treeItem.getValue().getName());
         controller.getRenameField().requestFocus();
         controller.getRenameField().selectAll();
         controller.setTreeItem(treeItem);
-        controller.setQueryTreeItems(queryTreeItems);
         stage.show();
     }
 }

@@ -1,26 +1,19 @@
 package fish.eyebrow.queryj.querytree;
 
-import fish.eyebrow.queryj.querytree.util.TreeItemUtil;
 import fish.eyebrow.queryj.querytree.util.TreeViewUtil;
 import javafx.event.ActionEvent;
-import javafx.scene.control.*;
-
-import java.util.ArrayList;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 
 public class QueryTreeContextMenu extends ContextMenu {
-    private final TreeView<String> queryTree;
-    private final ArrayList<QueryTreeItem> queryTreeItems;
-
+    private final TreeView<QueryTreeItem> queryTree;
     private final RenameDialog renameDialog;
 
-    public QueryTreeContextMenu(
-            TreeView<String> queryTree,
-            ArrayList<QueryTreeItem> queryTreeItems,
-            RenameDialog renameDialog
-    ) {
+    public QueryTreeContextMenu(TreeView<QueryTreeItem> queryTree, RenameDialog renameDialog) {
         super();
         this.queryTree = queryTree;
-        this.queryTreeItems = queryTreeItems;
         this.renameDialog = renameDialog;
 
         MenuItem renameItem = new MenuItem("Rename");
@@ -35,44 +28,33 @@ public class QueryTreeContextMenu extends ContextMenu {
         MenuItem createQueryItem = new MenuItem("Create query");
         createQueryItem.setOnAction(this::createQueryTreeItem);
 
-        TreeItem<String> treeItem = TreeViewUtil.currentSelection(queryTree);
+        TreeItem<QueryTreeItem> treeItem = TreeViewUtil.currentSelection(queryTree);
         boolean hasSelect = treeItem != null;
         renameItem.setDisable(!hasSelect);
         deleteItem.setDisable(!hasSelect);
         getItems().addAll(renameItem, deleteItem);
 
-        QueryTreeItem queryTreeItem = QueryTreeItem.findQueryTreeItem(
-                queryTreeItems,
-                TreeItemUtil.qualifiedNameOf(treeItem)
-        );
-
-        boolean isGroup = queryTreeItem instanceof QueryTreeItem.QueryGroup;
-        if ((!hasSelect && queryTree.getRoot() == null) || (hasSelect && isGroup)) {
+        boolean isGroup = hasSelect && treeItem.getValue() instanceof QueryTreeItem.QueryGroup;
+        if ((!hasSelect && queryTree.getRoot() == null) || (isGroup)) {
             getItems().add(createGroupItem);
         }
-        if (hasSelect && isGroup) {
+        if (isGroup) {
             getItems().add(createQueryItem);
         }
     }
 
     private void renameTreeItem(ActionEvent __) {
-        TreeItem<String> treeItem = TreeViewUtil.currentSelection(queryTree);
+        TreeItem<QueryTreeItem> treeItem = TreeViewUtil.currentSelection(queryTree);
         if (treeItem == null) return;
 
-        renameDialog.show(treeItem, queryTreeItems);
+        renameDialog.show(treeItem);
     }
 
     private void deleteTreeItem(ActionEvent __) {
-        TreeItem<String> treeItem = TreeViewUtil.currentSelection(queryTree);
+        TreeItem<QueryTreeItem> treeItem = TreeViewUtil.currentSelection(queryTree);
         if (treeItem == null) return;
 
-        String qualifiedName = TreeItemUtil.qualifiedNameOf(treeItem);
-        QueryTreeItem queryTreeItem = QueryTreeItem.findQueryTreeItem(queryTreeItems, qualifiedName);
-        if (queryTreeItem != null && (queryTreeItem.getParent() instanceof QueryTreeItem.QueryGroup parentGroup)) {
-            parentGroup.getChildren().remove(queryTreeItem);
-        }
-
-        TreeItem<String> parent = treeItem.getParent();
+        TreeItem<QueryTreeItem> parent = treeItem.getParent();
         if (parent != null) {
             parent.getChildren().remove(treeItem);
         } else {
@@ -81,42 +63,31 @@ public class QueryTreeContextMenu extends ContextMenu {
     }
 
     private void createGroupTreeItem(ActionEvent __) {
-        TreeItem<String> treeItem = TreeViewUtil.currentSelection(queryTree);
-        TreeItem<String> newGroupItem = new TreeItem<>("New group");
+        TreeItem<QueryTreeItem> parentTreeItem = TreeViewUtil.currentSelection(queryTree);
 
-        String qualifiedName = TreeItemUtil.qualifiedNameOf(treeItem);
-        QueryTreeItem queryTreeItem = QueryTreeItem.findQueryTreeItem(queryTreeItems, qualifiedName);
-        if (queryTreeItem instanceof QueryTreeItem.QueryGroup group) {
-            QueryTreeItem.QueryGroup newGroup = new QueryTreeItem.QueryGroup("New group", group, new ArrayList<>());
+        if (parentTreeItem == null) {
+            TreeItem<QueryTreeItem> newGroup = new TreeItem<>(new QueryTreeItem.QueryGroup("New group"));
 
-            group.getChildren().add(newGroup);
-            treeItem.getChildren().add(newGroupItem);
-            treeItem.setExpanded(true);
+            queryTree.setRoot(newGroup);
+            renameDialog.show(newGroup);
+        } else if (parentTreeItem.getValue() instanceof QueryTreeItem.QueryGroup) {
+            TreeItem<QueryTreeItem> newGroup = new TreeItem<>(new QueryTreeItem.QueryGroup("New group"));
+            parentTreeItem.getChildren().add(newGroup);
+            parentTreeItem.setExpanded(true);
 
-            renameDialog.show(newGroupItem, queryTreeItems);
-        } else if (queryTreeItem == null) {
-            QueryTreeItem.QueryGroup newGroup = new QueryTreeItem.QueryGroup("New group", null, new ArrayList<>());
-
-            queryTreeItems.add(newGroup);
-            queryTree.setRoot(newGroupItem);
-            renameDialog.show(newGroupItem, queryTreeItems);
+            renameDialog.show(newGroup);
         }
     }
 
     private void createQueryTreeItem(ActionEvent __) {
-        TreeItem<String> treeItem = TreeViewUtil.currentSelection(queryTree);
-        TreeItem<String> newQueryItem = new TreeItem<>("New query");
+        TreeItem<QueryTreeItem> parentTreeItem = TreeViewUtil.currentSelection(queryTree);
 
-        String qualifiedName = TreeItemUtil.qualifiedNameOf(treeItem);
-        QueryTreeItem queryTreeItem = QueryTreeItem.findQueryTreeItem(queryTreeItems, qualifiedName);
-        if (queryTreeItem instanceof QueryTreeItem.QueryGroup group) {
-            QueryTreeItem.Query newQuery = new QueryTreeItem.Query("New query", "PUT", "" ,"" ,group);
+        if (parentTreeItem.getValue() instanceof QueryTreeItem.QueryGroup) {
+            TreeItem<QueryTreeItem> newQuery = new TreeItem<>(new QueryTreeItem.Query("New query", "PUT", "", ""));
+            parentTreeItem.getChildren().add(newQuery);
+            parentTreeItem.setExpanded(true);
 
-            group.getChildren().add(newQuery);
-            treeItem.getChildren().add(newQueryItem);
-            treeItem.setExpanded(true);
-
-            renameDialog.show(newQueryItem, queryTreeItems);
+            renameDialog.show(newQuery);
         }
     }
 }
