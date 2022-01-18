@@ -1,6 +1,7 @@
 package fish.eyebrow.queryj.querypane;
 
 import fish.eyebrow.queryj.util.FXMLLoaderUtil;
+import javafx.beans.property.ObjectProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.VBox;
 
@@ -13,12 +14,7 @@ public class OutputPane extends VBox {
         controller = fxmlLoader.getController();
     }
 
-    public void printLine(String s) {
-        String currentText = controller.getOutputArea().getText();
-        controller.getOutputArea().setText(currentText + s + "\n");
-    }
-
-    public void setResponseStatusText(String s) {
-        controller.getResponseStatusLabel().setText(s);
+    public ObjectProperty<QueryResponse> getQueryResponseProperty() {
+        return controller.getQueryResponseProperty();
     }
 }
