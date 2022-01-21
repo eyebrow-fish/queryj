@@ -1,5 +1,6 @@
 package fish.eyebrow.queryj.querytree;
 
+import fish.eyebrow.queryj.querypane.OutputPane;
 import fish.eyebrow.queryj.querypane.QueryPane;
 import fish.eyebrow.queryj.querytree.util.TreeViewUtil;
 import javafx.fxml.FXML;
@@ -13,6 +14,7 @@ import java.util.Optional;
 public class QueryTreeController {
     @FXML
     private QueryTree queryTree;
+    private OutputPane outputPane;
     private TabPane queryTabPane;
     private RenameDialog renameDialog;
     private QueryTreeContextMenu queryTreeContextMenu;
@@ -50,7 +52,9 @@ public class QueryTreeController {
                             .findFirst();
 
                     if (optionalTab.isEmpty()) {
-                        queryTabPane.getTabs().add(new Tab(query.getName(), new QueryPane(query)));
+                        QueryPane queryPane = new QueryPane(query);
+                        queryPane.setOutputPane(outputPane);
+                        queryTabPane.getTabs().add(new Tab(query.getName(), queryPane));
                     } else {
                         queryTabPane.getSelectionModel().select(optionalTab.get());
                     }
@@ -65,5 +69,9 @@ public class QueryTreeController {
 
     public void setQueryTabPane(TabPane queryTabPane) {
         this.queryTabPane = queryTabPane;
+    }
+
+    public void setOutputPane(OutputPane outputPane) {
+        this.outputPane = outputPane;
     }
 }

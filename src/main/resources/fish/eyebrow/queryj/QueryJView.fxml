@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
+<?import fish.eyebrow.queryj.querypane.OutputPane?>
 <?import fish.eyebrow.queryj.querytree.QueryTree?>
-
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.*?>
 <SplitPane dividerPositions="0.2" prefWidth="443.0" xmlns="http://javafx.com/javafx/16"
            xmlns:fx="http://javafx.com/fxml/1" fx:controller="fish.eyebrow.queryj.QueryViewController">
     <AnchorPane>
@@ -16,7 +17,15 @@
         </ScrollPane>
     </AnchorPane>
     <AnchorPane>
-        <TabPane fx:id="queryTabPane" AnchorPane.bottomAnchor="0.0"
-                 AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+        <SplitPane dividerPositions="0.75" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0"
+                   AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane>
+                <TabPane fx:id="queryTabPane" AnchorPane.bottomAnchor="0.0"
+                         AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+            </AnchorPane>
+            <AnchorPane>
+                <OutputPane fx:id="outputPane"/>
+            </AnchorPane>
+        </SplitPane>
     </AnchorPane>
 </SplitPane>

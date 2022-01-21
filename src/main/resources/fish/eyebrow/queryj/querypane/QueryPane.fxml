@@ -1,28 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import fish.eyebrow.queryj.querypane.OutputPane?>
-<fx:root orientation="VERTICAL" type="SplitPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-         fx:controller="fish.eyebrow.queryj.querypane.QueryPaneController" dividerPositions="0.75" AnchorPane.topAnchor="0.0"
-         AnchorPane.leftAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
-    <AnchorPane>
-        <VBox spacing="4.0" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.bottomAnchor="0.0"
-              AnchorPane.rightAnchor="0.0">
-            <HBox spacing="4.0">
-                <ComboBox fx:id="methodSelect"/>
-                <TextField fx:id="urlField" onAction="#sendRequest" promptText="https://example.org"
-                           HBox.hgrow="ALWAYS"/>
-                <Button onAction="#sendRequest" text="Send"/>
-                <padding>
-                    <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
-                </padding>
-            </HBox>
-            <TextArea fx:id="bodyArea" VBox.vgrow="ALWAYS"/>
-        </VBox>
-    </AnchorPane>
-    <AnchorPane>
-        <OutputPane fx:id="outputPane"/>
-    </AnchorPane>
+
+<?import fish.eyebrow.queryj.querypane.headersbox.HeadersBox?>
+<fx:root type="VBox" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+         AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+         fx:controller="fish.eyebrow.queryj.querypane.QueryPaneController">
+    <HBox spacing="4.0">
+        <ComboBox fx:id="methodSelect"/>
+        <TextField fx:id="urlField" onAction="#sendRequest" promptText="https://example.org" HBox.hgrow="ALWAYS"/>
+        <Button onAction="#sendRequest" text="Send"/>
+        <padding>
+            <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
+        </padding>
+    </HBox>
+    <HeadersBox fx:id="headersBox"/>
+    <TextArea fx:id="bodyArea" VBox.vgrow="ALWAYS"/>
 </fx:root>

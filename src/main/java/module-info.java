@@ -11,4 +11,6 @@ module fish.eyebrow.queryj {
     opens fish.eyebrow.queryj.querytree;
     exports fish.eyebrow.queryj.querypane;
     opens fish.eyebrow.queryj.querypane;
+    exports fish.eyebrow.queryj.querypane.headersbox;
+    opens fish.eyebrow.queryj.querypane.headersbox;
 }

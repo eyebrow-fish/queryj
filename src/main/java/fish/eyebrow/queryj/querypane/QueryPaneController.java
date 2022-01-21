@@ -1,5 +1,6 @@
 package fish.eyebrow.queryj.querypane;
 
+import fish.eyebrow.queryj.querypane.headersbox.HeadersBox;
 import fish.eyebrow.queryj.querytree.QueryTreeItem;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -12,7 +13,9 @@ import kong.unirest.Unirest;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 public class QueryPaneController {
     @FXML
@@ -22,8 +25,9 @@ public class QueryPaneController {
     @FXML
     private TextArea bodyArea;
     @FXML
-    private OutputPane outputPane;
+    private HeadersBox headersBox;
 
+    private OutputPane outputPane;
     private QueryTreeItem.Query query;
 
     @FXML
@@ -41,6 +45,10 @@ public class QueryPaneController {
     private void sendRequest() {
         Instant startTime = Instant.now();
         HttpRequestWithBody request = Unirest.request(query.getMethod(), query.getUrl());
+        request.headers(headersBox.getHeaderItems()
+                .stream()
+                .map(headerItem -> Map.entry(headerItem.getKeyField().getText(), headerItem.getValueField().getText()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
 
         CompletableFuture<HttpResponse<String>> responseFuture;
         if (query.getMethod().equals("PUT") || query.getMethod().equals("POST")) {
@@ -82,5 +90,9 @@ public class QueryPaneController {
         urlField.setText(query.getUrl());
         bodyArea.setText(query.getBody());
         bodyArea.setDisable(!method.equals("PUT") && !method.equals("POST"));
+    }
+
+    public void setOutputPane(OutputPane outputPane) {
+        this.outputPane = outputPane;
     }
 }

@@ -5,8 +5,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-
 public class RenameDialogController {
     @FXML
     private TextField renameField;
