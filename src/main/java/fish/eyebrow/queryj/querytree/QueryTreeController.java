@@ -23,8 +23,6 @@ public class QueryTreeController {
     private void initialize() {
         renameDialog = new RenameDialog();
 
-        queryTree.setOnMouseClicked(this::handleTreeClick);
-
         TreeItem<QueryTreeItem> root = new TreeItem<>(new QueryTreeItem.QueryGroup("examples"));
         root.getChildren().add(
                 new TreeItem<>(new QueryTreeItem.Query("duckduckgo", "GET", "https://duckduckgo.com", ""))
@@ -32,6 +30,7 @@ public class QueryTreeController {
         queryTree.setRoot(root);
     }
 
+    @FXML
     private void handleTreeClick(MouseEvent event) {
         if (queryTreeContextMenu != null) {
             queryTreeContextMenu.hide();
