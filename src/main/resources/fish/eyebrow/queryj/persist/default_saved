@@ -1,0 +1,21 @@
+{
+  "name": "Query examples",
+  "children": [
+    {
+      "name": "duckduckgo",
+      "method": "GET",
+      "url": "https://duckduckgo.com",
+      "body": "",
+      "headers": {}
+    },
+    {
+      "name": "deserialize json in java",
+      "method": "GET",
+      "url": "https://stackoverflow.com/search?q=%5Bjava%5D+how+to+deserialize+json",
+      "body": "",
+      "headers": {
+        "host": "stackoverflow.com"
+      }
+    }
+  ]
+}
