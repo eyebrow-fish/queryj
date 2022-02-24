@@ -30,7 +30,7 @@ public class QueryTreeItemLoader implements Loader<QueryTreeItem> {
             JsonObject jsonHeaders = object.get("headers").getAsJsonObject();
             Map<String, String> headers = jsonHeaders.entrySet()
                     .stream()
-                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getKey));
+                    .collect(Collectors.toMap(Map.Entry::getKey, v -> v.getValue().getAsString()));
 
             return new QueryTreeItem.Query(
                     object.get("name").getAsString(),

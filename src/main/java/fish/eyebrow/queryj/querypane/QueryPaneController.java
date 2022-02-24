@@ -1,8 +1,8 @@
 package fish.eyebrow.queryj.querypane;
 
+import fish.eyebrow.queryj.persist.item.QueryTreeItem;
 import fish.eyebrow.queryj.querypane.headersbox.HeaderItem;
 import fish.eyebrow.queryj.querypane.headersbox.HeadersBox;
-import fish.eyebrow.queryj.persist.item.QueryTreeItem;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -17,6 +17,7 @@ import kong.unirest.Unirest;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -117,10 +118,13 @@ public class QueryPaneController {
         if (query.getHeaders().isEmpty()) return;
 
         headersBox.getHeadersContent().getChildren().clear(); // Remove empty.
-        for (Map.Entry<String, String> headerEntry : query.getHeaders().entrySet()) {
+        List<Map.Entry<String, String>> entries = query.getHeaders().entrySet().stream().toList();
+        for (int i = 0; i < entries.size(); i ++) {
+            Map.Entry<String, String> headerEntry = entries.get(i);
             HeaderItem headerItem = new HeaderItem();
             headerItem.getKeyField().setText(headerEntry.getKey());
             headerItem.getValueField().setText(headerEntry.getValue());
+            headerItem.getRemoveButton().setDisable(entries.size() == 1);
             headersBox.getHeadersContent().getChildren().add(headerItem);
         }
     }
