@@ -1,11 +1,16 @@
 package fish.eyebrow.queryj.querytree;
 
+import fish.eyebrow.queryj.persist.item.QueryTreeItem;
+import fish.eyebrow.queryj.querytree.renamedialog.RenameDialog;
 import fish.eyebrow.queryj.querytree.util.TreeViewUtil;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 public class QueryTreeContextMenu extends ContextMenu {
     private final TreeView<QueryTreeItem> queryTree;
@@ -66,14 +71,13 @@ public class QueryTreeContextMenu extends ContextMenu {
         TreeItem<QueryTreeItem> parentTreeItem = TreeViewUtil.currentSelection(queryTree);
 
         if (parentTreeItem == null) {
-            TreeItem<QueryTreeItem> newGroup = new TreeItem<>(new QueryTreeItem.QueryGroup("New group"));
+            TreeItem<QueryTreeItem> newGroup = new TreeItem<>(new QueryTreeItem.QueryGroup("New group", new ArrayList<>()));
 
             queryTree.setRoot(newGroup);
             renameDialog.show(newGroup);
         } else if (parentTreeItem.getValue() instanceof QueryTreeItem.QueryGroup) {
-            TreeItem<QueryTreeItem> newGroup = new TreeItem<>(new QueryTreeItem.QueryGroup("New group"));
+            TreeItem<QueryTreeItem> newGroup = new TreeItem<>(new QueryTreeItem.QueryGroup("New group", new ArrayList<>()));
             parentTreeItem.getChildren().add(newGroup);
-            parentTreeItem.setExpanded(true);
 
             renameDialog.show(newGroup);
         }
@@ -83,7 +87,9 @@ public class QueryTreeContextMenu extends ContextMenu {
         TreeItem<QueryTreeItem> parentTreeItem = TreeViewUtil.currentSelection(queryTree);
 
         if (parentTreeItem.getValue() instanceof QueryTreeItem.QueryGroup) {
-            TreeItem<QueryTreeItem> newQuery = new TreeItem<>(new QueryTreeItem.Query("New query", "PUT", "", ""));
+            TreeItem<QueryTreeItem> newQuery = new TreeItem<>(
+                    new QueryTreeItem.Query("New query", "PUT", "", "", Map.of())
+            );
             parentTreeItem.getChildren().add(newQuery);
             parentTreeItem.setExpanded(true);
 

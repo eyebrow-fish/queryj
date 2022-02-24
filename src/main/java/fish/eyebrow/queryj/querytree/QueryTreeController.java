@@ -1,7 +1,9 @@
 package fish.eyebrow.queryj.querytree;
 
+import fish.eyebrow.queryj.persist.item.QueryTreeItem;
 import fish.eyebrow.queryj.querypane.OutputPane;
 import fish.eyebrow.queryj.querypane.QueryPane;
+import fish.eyebrow.queryj.querytree.renamedialog.RenameDialog;
 import fish.eyebrow.queryj.querytree.util.TreeViewUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
@@ -24,12 +26,6 @@ public class QueryTreeController {
         renameDialog = new RenameDialog();
 
         queryTree.setOnMouseClicked(this::handleTreeClick);
-
-        TreeItem<QueryTreeItem> root = new TreeItem<>(new QueryTreeItem.QueryGroup("examples"));
-        root.getChildren().add(
-                new TreeItem<>(new QueryTreeItem.Query("duckduckgo", "GET", "https://duckduckgo.com", ""))
-        );
-        queryTree.setRoot(root);
     }
 
     private void handleTreeClick(MouseEvent event) {
@@ -65,6 +61,10 @@ public class QueryTreeController {
                 queryTreeContextMenu.show(queryTabPane, event.getScreenX(), event.getScreenY());
             }
         }
+    }
+
+    public QueryTree getQueryTree() {
+        return queryTree;
     }
 
     public void setQueryTabPane(TabPane queryTabPane) {

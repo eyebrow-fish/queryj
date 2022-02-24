@@ -14,6 +14,7 @@ public class QueryJApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 800, 600);
         stage.setTitle("QueryJ");
         stage.setScene(scene);
+        stage.setForceIntegerRenderScale(true);
         stage.show();
     }
 

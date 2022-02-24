@@ -1,5 +1,6 @@
-package fish.eyebrow.queryj.querytree;
+package fish.eyebrow.queryj.querytree.renamedialog;
 
+import fish.eyebrow.queryj.persist.item.QueryTreeItem;
 import fish.eyebrow.queryj.util.FXMLLoaderUtil;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

@@ -1,9 +1,11 @@
 package fish.eyebrow.queryj.querypane;
 
+import fish.eyebrow.queryj.querypane.headersbox.HeaderItem;
 import fish.eyebrow.queryj.querypane.headersbox.HeadersBox;
-import fish.eyebrow.queryj.querytree.QueryTreeItem;
-import javafx.application.Platform;
+import fish.eyebrow.queryj.persist.item.QueryTreeItem;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -22,6 +24,8 @@ public class QueryPaneController {
     private ComboBox<String> methodSelect;
     @FXML
     private TextField urlField;
+    @FXML
+    public Button sendButton;
     @FXML
     private TextArea bodyArea;
     @FXML
@@ -43,6 +47,8 @@ public class QueryPaneController {
 
     @FXML
     private void sendRequest() {
+        sendButton.setDisable(true);
+
         Instant startTime = Instant.now();
         HttpRequestWithBody request = Unirest.request(query.getMethod(), query.getUrl());
         request.headers(headersBox.getHeaderItems()
@@ -57,28 +63,36 @@ public class QueryPaneController {
             responseFuture = request.asStringAsync();
         }
 
-        // CompletableFutures run in a separate thread, which means JavaFX will have some issues.
-        // To move around this problem, we need to use "Platform.runLater".
-        Platform.runLater(() -> {
-            QueryResponse queryResponse;
-            try {
-                HttpResponse<String> response = responseFuture.get();
-                queryResponse = new QueryResponse(
-                        Duration.between(startTime, Instant.now()),
-                        response.getStatus() + " " + response.getStatusText(),
-                        response.getBody(),
-                        false
-                );
-            } catch (Exception e) {
-                queryResponse = new QueryResponse(
-                        Duration.between(startTime, Instant.now()),
-                        null,
-                        e.getMessage(),
-                        true
-                );
-            }
+        responseFuture.thenCompose(response -> {
+            Task<QueryResponse> task = new Task<>() {
+                @Override
+                protected QueryResponse call() {
+                    QueryResponse queryResponse;
+                    try {
+                        queryResponse = new QueryResponse(
+                                Duration.between(startTime, Instant.now()),
+                                response.getStatus() + " " + response.getStatusText(),
+                                response.getBody(),
+                                false
+                        );
+                    } catch (Exception e) {
+                        queryResponse = new QueryResponse(
+                                Duration.between(startTime, Instant.now()),
+                                null,
+                                e.getMessage(),
+                                true
+                        );
+                    }
+                    return queryResponse;
+                }
+            };
 
-            outputPane.getQueryResponseProperty().setValue(queryResponse);
+            task.setOnSucceeded(event -> {
+                outputPane.getQueryResponseProperty().setValue((QueryResponse) event.getSource().getValue());
+                sendButton.setDisable(false);
+            });
+
+            return CompletableFuture.runAsync(task);
         });
     }
 
@@ -90,6 +104,16 @@ public class QueryPaneController {
         urlField.setText(query.getUrl());
         bodyArea.setText(query.getBody());
         bodyArea.setDisable(!method.equals("PUT") && !method.equals("POST"));
+
+        if (query.getHeaders().isEmpty()) return;
+
+        headersBox.getHeadersContent().getChildren().clear(); // Remove empty.
+        for (Map.Entry<String, String> headerEntry : query.getHeaders().entrySet()) {
+            HeaderItem headerItem = new HeaderItem();
+            headerItem.getKeyField().setText(headerEntry.getKey());
+            headerItem.getValueField().setText(headerEntry.getValue());
+            headersBox.getHeadersContent().getChildren().add(headerItem);
+        }
     }
 
     public void setOutputPane(OutputPane outputPane) {

@@ -3,6 +3,7 @@ package fish.eyebrow.queryj.querypane.headersbox;
 import fish.eyebrow.queryj.util.FXMLLoaderUtil;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TitledPane;
+import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 
@@ -16,5 +17,9 @@ public class HeadersBox extends TitledPane {
 
     public ArrayList<HeaderItem> getHeaderItems() {
         return controller.getHeaderItems();
+    }
+
+    public VBox getHeadersContent() {
+        return controller.getHeadersContent();
     }
 }

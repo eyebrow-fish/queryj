@@ -1,6 +1,6 @@
 package fish.eyebrow.queryj.querypane;
 
-import fish.eyebrow.queryj.querytree.QueryTreeItem;
+import fish.eyebrow.queryj.persist.item.QueryTreeItem;
 import fish.eyebrow.queryj.util.FXMLLoaderUtil;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.VBox;

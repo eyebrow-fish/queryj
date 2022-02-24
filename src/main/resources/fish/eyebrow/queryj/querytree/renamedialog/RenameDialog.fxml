@@ -6,9 +6,9 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.*?>
 
-<fx:root type="BorderPane" fx:controller="fish.eyebrow.queryj.querytree.RenameDialogController" maxHeight="-Infinity" maxWidth="-Infinity"
-            minHeight="-Infinity" minWidth="-Infinity"
-            xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<fx:root type="BorderPane" fx:controller="fish.eyebrow.queryj.querytree.renamedialog.RenameDialogController" maxHeight="-Infinity" maxWidth="-Infinity"
+         minHeight="-Infinity" minWidth="-Infinity"
+         xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
     <center>
         <VBox spacing="4.0" BorderPane.alignment="CENTER">
             <BorderPane.margin>

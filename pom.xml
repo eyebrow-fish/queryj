@@ -14,8 +14,9 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <junit.version>5.8.2</junit.version>
-        <javafx.version>17.0.0.1</javafx.version>
-        <unirest.version>1.4.9</unirest.version>
+        <javafx.version>17.0.2</javafx.version>
+        <unirest.version>3.13.6</unirest.version>
+        <gson.version>2.9.0</gson.version>
     </properties>
 
     <dependencies>
@@ -33,7 +34,13 @@
         <dependency>
             <groupId>com.konghq</groupId>
             <artifactId>unirest-java</artifactId>
-            <version>3.13.6</version>
+            <version>${unirest.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${gson.version}</version>
         </dependency>
 
         <dependency>

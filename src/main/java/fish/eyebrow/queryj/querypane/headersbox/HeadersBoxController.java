@@ -22,4 +22,8 @@ public class HeadersBoxController {
                 .map(c -> (HeaderItem) c)
                 .collect(Collectors.toList());
     }
+
+    public VBox getHeadersContent() {
+        return headersContent;
+    }
 }

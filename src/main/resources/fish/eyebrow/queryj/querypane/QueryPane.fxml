@@ -11,7 +11,7 @@
     <HBox spacing="4.0">
         <ComboBox fx:id="methodSelect"/>
         <TextField fx:id="urlField" onAction="#sendRequest" promptText="https://example.org" HBox.hgrow="ALWAYS"/>
-        <Button onAction="#sendRequest" text="Send"/>
+        <Button fx:id="sendButton" onAction="#sendRequest" text="Send"/>
         <padding>
             <Insets bottom="4.0" left="4.0" right="4.0" top="4.0"/>
         </padding>
