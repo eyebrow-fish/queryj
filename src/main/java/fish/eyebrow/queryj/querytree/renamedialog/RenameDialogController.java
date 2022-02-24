@@ -14,9 +14,20 @@ public class RenameDialogController {
     private TreeItem<QueryTreeItem> treeItem;
 
     @FXML
-    private void submit() {
+    private void submit() throws CloneNotSupportedException {
         String newName = renameField.getText();
-        treeItem.getValue().setName(newName);
+
+        QueryTreeItem value = treeItem.getValue();
+        QueryTreeItem newQueryTreeItem = (QueryTreeItem) value.clone();
+        newQueryTreeItem.setName(newName);
+        treeItem.setValue(newQueryTreeItem);
+
+        if (treeItem.getParent() != null) {
+            QueryTreeItem.QueryGroup parentGroup = (QueryTreeItem.QueryGroup) treeItem.getParent().getValue();
+            parentGroup.getChildren().remove(value);
+            parentGroup.getChildren().add(newQueryTreeItem);
+        }
+
         close();
     }
 

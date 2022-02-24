@@ -20,6 +20,6 @@ public class ScheduledPersistenceWriter {
     }
 
     public void startWithSupplier(Supplier<QueryTreeItem> supplier) {
-        executorService.scheduleAtFixedRate(new PersistenceWriter(supplier), 0, 5, TimeUnit.SECONDS);
+        executorService.scheduleAtFixedRate(new PersistenceWriter(supplier), 0, 1, TimeUnit.SECONDS);
     }
 }

@@ -22,7 +22,7 @@ public class PersistenceLoader {
     public TreeItem<QueryTreeItem> loadQueryTree() throws IOException {
         Path filePath = Files.exists(Persistence.SAVE_PATH) ?
                         Persistence.SAVE_PATH :
-                        Path.of(Objects.requireNonNull(this.getClass().getResource("default_saved")).getPath());
+                        Path.of(Objects.requireNonNull(this.getClass().getResource("default_saved.json")).getPath());
 
         QueryTreeItem queryTreeItem = new QueryTreeItemLoader().load(Files.readString(filePath));
         return QueryTreeItemUtil.makeTreeItem(queryTreeItem);

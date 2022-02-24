@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
 
-sealed public interface QueryTreeItem {
+sealed public interface QueryTreeItem extends Cloneable {
     String getName();
     void setName(String name);
+    Object clone() throws CloneNotSupportedException;
 
     final class QueryGroup implements QueryTreeItem {
         private String name;
@@ -51,6 +52,11 @@ sealed public interface QueryTreeItem {
         @Override
         public String toString() {
             return name;
+        }
+
+        @Override
+        public Object clone() throws CloneNotSupportedException {
+            return super.clone();
         }
     }
 
@@ -135,6 +141,11 @@ sealed public interface QueryTreeItem {
         @Override
         public String toString() {
             return name;
+        }
+
+        @Override
+        public Object clone() throws CloneNotSupportedException {
+            return super.clone();
         }
     }
 }
