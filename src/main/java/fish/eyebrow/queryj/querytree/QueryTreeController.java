@@ -24,10 +24,9 @@ public class QueryTreeController {
     @FXML
     private void initialize() {
         renameDialog = new RenameDialog();
-
-        queryTree.setOnMouseClicked(this::handleTreeClick);
     }
 
+    @FXML
     private void handleTreeClick(MouseEvent event) {
         if (queryTreeContextMenu != null) {
             queryTreeContextMenu.hide();

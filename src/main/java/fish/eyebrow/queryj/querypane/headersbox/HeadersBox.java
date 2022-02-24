@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class HeadersBox extends TitledPane {
     private final HeadersBoxController controller;
@@ -15,7 +15,7 @@ public class HeadersBox extends TitledPane {
         controller = fxmlLoader.getController();
     }
 
-    public ArrayList<HeaderItem> getHeaderItems() {
+    public List<HeaderItem> getHeaderItems() {
         return controller.getHeaderItems();
     }
 

@@ -17,5 +17,5 @@
         </padding>
     </HBox>
     <HeadersBox fx:id="headersBox"/>
-    <TextArea fx:id="bodyArea" VBox.vgrow="ALWAYS"/>
+    <TextArea onKeyPressed="#bodyAreaKeyPressed" fx:id="bodyArea" VBox.vgrow="ALWAYS"/>
 </fx:root>

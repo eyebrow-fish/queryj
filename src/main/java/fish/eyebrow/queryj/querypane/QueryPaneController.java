@@ -9,6 +9,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import kong.unirest.HttpRequestWithBody;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
@@ -94,6 +96,13 @@ public class QueryPaneController {
 
             return CompletableFuture.runAsync(task);
         });
+    }
+
+    @FXML
+    private void bodyAreaKeyPressed(KeyEvent event) {
+        if (event.isControlDown() && event.getCode() == KeyCode.ENTER) {
+            sendRequest();
+        }
     }
 
     public void setQuery(QueryTreeItem.Query query) {
