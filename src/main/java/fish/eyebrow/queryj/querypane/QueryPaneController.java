@@ -18,6 +18,7 @@ import kong.unirest.Unirest;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
@@ -113,10 +114,12 @@ public class QueryPaneController {
         bodyArea.setText(query.getBody());
         bodyArea.setDisable(!method.equals("PUT") && !method.equals("POST"));
 
-        ObservableMap<String, String> headers = FXCollections.observableMap(
-                query.getHeaders().isEmpty() ? Map.of("", "") : query.getHeaders()
-        );
-        headersBox.headersProperty().set(headers);
+        if (query.getHeaders().isEmpty()) {
+            headersBox.putHeader("", "");
+        } else {
+            ObservableMap<String, String> headers = FXCollections.observableMap(query.getHeaders());
+            headersBox.headersProperty().set(headers);
+        }
     }
 
     public void setOutputPane(OutputPane outputPane) {

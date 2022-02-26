@@ -5,6 +5,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
+import java.util.Objects;
+
 public class HeaderItemController {
     @FXML
     public HBox headerItem;
@@ -27,8 +29,11 @@ public class HeaderItemController {
                 return;
             }
             // When blurring the keyField, remove the old value, and put the new one.
-            headersBox.removeHeader(updatedKey);
-            headersBox.putHeader(keyField.getText(), valueField.getText());
+            if (!Objects.equals(updatedKey, keyField.getText())) {
+                headersBox.putHeader(keyField.getText(), valueField.getText());
+                headersBox.removeHeader(updatedKey);
+            }
+            updatedKey = null;
         });
         valueField.focusedProperty().addListener((__, ___, focused) -> {
             // Put the header with the new value on blur.
