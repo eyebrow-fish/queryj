@@ -14,7 +14,7 @@ public class OutputPane extends VBox {
         controller = fxmlLoader.getController();
     }
 
-    public ObjectProperty<QueryResponse> getQueryResponseProperty() {
-        return controller.getQueryResponseProperty();
+    public ObjectProperty<QueryResponse> queryResponseProperty() {
+        return controller.queryResponseProperty();
     }
 }

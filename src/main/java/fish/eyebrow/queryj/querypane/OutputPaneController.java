@@ -12,11 +12,12 @@ public class OutputPaneController {
     @FXML
     private TextArea outputArea;
 
-    private final ObjectProperty<QueryResponse> queryResponseProperty;
+    private ObjectProperty<QueryResponse> queryResponse;
 
-    public OutputPaneController() {
-        queryResponseProperty = new SimpleObjectProperty<>(null);
-        queryResponseProperty.addListener((__, ___, queryResponse) -> {
+    @FXML
+    private void initialize() {
+        queryResponse = new SimpleObjectProperty<>(null);
+        queryResponse.addListener((__, ___, queryResponse) -> {
             if (queryResponse.isError()) {
                 outputArea.setStyle("-fx-text-fill: #d00");
                 responseStatusLabel.setStyle("-fx-text-fill: #d00");
@@ -36,7 +37,7 @@ public class OutputPaneController {
         responseStatusLabel.textProperty();
     }
 
-    public ObjectProperty<QueryResponse> getQueryResponseProperty() {
-        return queryResponseProperty;
+    public ObjectProperty<QueryResponse> queryResponseProperty() {
+        return queryResponse;
     }
 }

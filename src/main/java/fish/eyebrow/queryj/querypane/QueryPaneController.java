@@ -6,10 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import kong.unirest.HttpRequestWithBody;
@@ -90,7 +87,7 @@ public class QueryPaneController {
             };
 
             task.setOnSucceeded(event -> {
-                outputPane.getQueryResponseProperty().setValue((QueryResponse) event.getSource().getValue());
+                outputPane.queryResponseProperty().setValue((QueryResponse) event.getSource().getValue());
                 sendButton.setDisable(false);
             });
 
