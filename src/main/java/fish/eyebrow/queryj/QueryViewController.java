@@ -11,6 +11,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TreeItem;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public class QueryViewController extends Control {
     @FXML
@@ -26,7 +27,9 @@ public class QueryViewController extends Control {
         queryTree.setOutputPane(outputPane);
 
         TreeItem<QueryTreeItem> treeItem = PersistenceLoader.getInstance().loadQueryTree();
-        ScheduledPersistenceWriter.getInstance().startWithSupplier(() -> queryTree.getRoot().getValue());
+        ScheduledPersistenceWriter.getInstance().startWithSupplier(() ->
+                Optional.ofNullable(queryTree.getRoot()).map(TreeItem::getValue)
+        );
         queryTree.setRoot(treeItem);
     }
 }

@@ -11,8 +11,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TreeItem;
 import javafx.scene.input.MouseEvent;
 
-import java.util.Optional;
-
 public class QueryTreeController {
     @FXML
     private QueryTree queryTree;
@@ -41,18 +39,22 @@ public class QueryTreeController {
                 if (treeItem == null) return;
 
                 if (treeItem.getValue() instanceof (QueryTreeItem.Query query)) {
-                    Optional<Tab> optionalTab = queryTabPane.getTabs()
+                    // Opens the tab as a QueryPane.
+                    // This is done by either selecting an already existent tab, or by making a new one.
+                    Tab tab = queryTabPane.getTabs()
                             .stream()
-                            .filter(tab -> tab.getText().equals(query.getName()))
-                            .findFirst();
+                            .filter(t -> t.getText().equals(query.getName()))
+                            .findFirst()
+                            .orElseGet(() -> {
+                                QueryPane queryPane = new QueryPane(query);
+                                queryPane.setOutputPane(outputPane);
 
-                    if (optionalTab.isEmpty()) {
-                        QueryPane queryPane = new QueryPane(query);
-                        queryPane.setOutputPane(outputPane);
-                        queryTabPane.getTabs().add(new Tab(query.getName(), queryPane));
-                    } else {
-                        queryTabPane.getSelectionModel().select(optionalTab.get());
-                    }
+                                Tab t = new Tab(query.getName(), queryPane);
+                                queryTabPane.getTabs().add(t);
+                                return t;
+                            });
+
+                    queryTabPane.getSelectionModel().select(tab);
                 }
             }
             case SECONDARY -> {

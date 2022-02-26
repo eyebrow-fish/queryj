@@ -26,7 +26,7 @@ public class QueryTreeItemLoader implements Loader<QueryTreeItem> {
             }
             String name = object.get("name").getAsString();
             return new QueryTreeItem.QueryGroup(name, children);
-        } else {
+        } else if (object.has("headers")) {
             JsonObject jsonHeaders = object.get("headers").getAsJsonObject();
             Map<String, String> headers = jsonHeaders.entrySet()
                     .stream()
@@ -40,5 +40,7 @@ public class QueryTreeItemLoader implements Loader<QueryTreeItem> {
                     headers
             );
         }
+
+        return null;
     }
 }

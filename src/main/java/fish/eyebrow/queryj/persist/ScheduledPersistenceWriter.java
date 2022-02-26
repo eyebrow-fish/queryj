@@ -2,6 +2,7 @@ package fish.eyebrow.queryj.persist;
 
 import fish.eyebrow.queryj.persist.item.QueryTreeItem;
 
+import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -19,7 +20,7 @@ public class ScheduledPersistenceWriter {
         return instance != null ? instance : (instance = new ScheduledPersistenceWriter());
     }
 
-    public void startWithSupplier(Supplier<QueryTreeItem> supplier) {
+    public void startWithSupplier(Supplier<Optional<QueryTreeItem>> supplier) {
         executorService.scheduleAtFixedRate(new PersistenceWriter(supplier), 0, 1, TimeUnit.SECONDS);
     }
 }

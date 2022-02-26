@@ -7,13 +7,12 @@ public class QueryTreeItemUtil {
     private QueryTreeItemUtil() {}
 
     public static TreeItem<QueryTreeItem> makeTreeItem(QueryTreeItem queryTreeItem) {
-
         if (queryTreeItem instanceof QueryTreeItem.QueryGroup group) {
             TreeItem<QueryTreeItem> root = new TreeItem<>(group);
             root.getChildren().addAll(group.getChildren().stream().map(QueryTreeItemUtil::makeTreeItem).toList());
             return root;
-        } else {
-            return new TreeItem<>(queryTreeItem);
         }
+
+        return queryTreeItem != null ? new TreeItem<>(queryTreeItem) : null;
     }
 }
