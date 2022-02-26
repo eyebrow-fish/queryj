@@ -25,4 +25,8 @@ public class HeaderItem extends HBox {
     public Button getRemoveButton() {
         return controller.getRemoveButton();
     }
+
+    public void setHeadersBox(HeadersBox headersBox) {
+        controller.setHeadersBox(headersBox);
+    }
 }

@@ -1,30 +1,49 @@
 package fish.eyebrow.queryj.querypane.headersbox;
 
+import javafx.beans.property.SimpleMapProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
 
-import java.util.List;
-
 public class HeadersBoxController {
     @FXML
+    private HeadersBox headersBox;
+    @FXML
     private VBox headersContent;
+    private SimpleMapProperty<String, String> headers;
 
     @FXML
     private void initialize() {
-        HeaderItem headerItem = new HeaderItem();
-        headerItem.getRemoveButton().setDisable(true); // That would be bad.
-        headersContent.getChildren().add(headerItem);
+        headers = new SimpleMapProperty<>(FXCollections.observableHashMap());
+        headers.addListener((__, prev, current) -> {
+            headersContent.getChildren().clear();
+            current.entrySet()
+                    .stream()
+                    .map(header -> {
+                        HeaderItem headerItem = new HeaderItem();
+                        headerItem.setHeadersBox(headersBox);
+                        headerItem.getKeyField().setText(header.getKey());
+                        headerItem.getValueField().setText(header.getValue());
+                        return headerItem;
+                    })
+                    .forEach(h -> headersContent.getChildren().add(h));
+        });
     }
 
-    public List<HeaderItem> getHeaderItems() {
-        return headersContent.getChildren()
-                .stream()
-                .filter(c -> c instanceof HeaderItem)
-                .map(c -> (HeaderItem) c)
-                .toList();
+    public void putHeader(String key, String value) {
+        ObservableMap<String, String> currentHeaders = headersBox.headersProperty().get();
+        currentHeaders.put(key, value);
+        headersBox.headersProperty().set(FXCollections.observableMap(currentHeaders));
     }
 
-    public VBox getHeadersContent() {
-        return headersContent;
+    public void removeHeader(String key) {
+        ObservableMap<String, String> currentHeaders = headersBox.headersProperty().get();
+        currentHeaders.remove(key);
+        headersBox.headersProperty().set(FXCollections.observableMap(currentHeaders));
+    }
+
+    public SimpleMapProperty<String, String> headersProperty() {
+        return headers;
     }
 }

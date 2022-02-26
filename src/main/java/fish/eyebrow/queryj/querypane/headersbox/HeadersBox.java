@@ -1,11 +1,9 @@
 package fish.eyebrow.queryj.querypane.headersbox;
 
 import fish.eyebrow.queryj.util.FXMLLoaderUtil;
+import javafx.beans.property.SimpleMapProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TitledPane;
-import javafx.scene.layout.VBox;
-
-import java.util.List;
 
 public class HeadersBox extends TitledPane {
     private final HeadersBoxController controller;
@@ -15,11 +13,15 @@ public class HeadersBox extends TitledPane {
         controller = fxmlLoader.getController();
     }
 
-    public List<HeaderItem> getHeaderItems() {
-        return controller.getHeaderItems();
+    public void putHeader(String key, String value) {
+        controller.putHeader(key, value);
     }
 
-    public VBox getHeadersContent() {
-        return controller.getHeadersContent();
+    public void removeHeader(String key) {
+        controller.removeHeader(key);
+    }
+
+    public SimpleMapProperty<String, String> headersProperty() {
+        return controller.headersProperty();
     }
 }

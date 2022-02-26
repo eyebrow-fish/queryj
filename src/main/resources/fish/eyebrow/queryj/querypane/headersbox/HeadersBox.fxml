@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root text="Headers" type="TitledPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+<fx:root text="Headers" type="TitledPane" fx:id="headersBox" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
          fx:controller="fish.eyebrow.queryj.querypane.headersbox.HeadersBoxController">
     <AnchorPane>
         <VBox fx:id="headersContent" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"

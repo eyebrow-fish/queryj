@@ -1,8 +1,9 @@
 package fish.eyebrow.queryj.querypane;
 
 import fish.eyebrow.queryj.persist.item.QueryTreeItem;
-import fish.eyebrow.queryj.querypane.headersbox.HeaderItem;
 import fish.eyebrow.queryj.querypane.headersbox.HeadersBox;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -17,10 +18,8 @@ import kong.unirest.Unirest;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 public class QueryPaneController {
     @FXML
@@ -46,6 +45,7 @@ public class QueryPaneController {
         });
         urlField.textProperty().addListener((__, ___, s) -> query.setUrl(s));
         bodyArea.textProperty().addListener((__, ___, s) -> query.setBody(s));
+        headersBox.headersProperty().addListener((__, ___, h) -> query.setHeaders(h));
     }
 
     @FXML
@@ -54,10 +54,8 @@ public class QueryPaneController {
 
         Instant startTime = Instant.now();
         HttpRequestWithBody request = Unirest.request(query.getMethod(), query.getUrl());
-        request.headers(headersBox.getHeaderItems()
-                .stream()
-                .map(headerItem -> Map.entry(headerItem.getKeyField().getText(), headerItem.getValueField().getText()))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+
+        request.headers(headersBox.headersProperty());
 
         CompletableFuture<HttpResponse<String>> responseFuture;
         if (query.getMethod().equals("PUT") || query.getMethod().equals("POST")) {
@@ -115,18 +113,10 @@ public class QueryPaneController {
         bodyArea.setText(query.getBody());
         bodyArea.setDisable(!method.equals("PUT") && !method.equals("POST"));
 
-        if (query.getHeaders().isEmpty()) return;
-
-        headersBox.getHeadersContent().getChildren().clear(); // Remove empty.
-        List<Map.Entry<String, String>> entries = query.getHeaders().entrySet().stream().toList();
-        for (int i = 0; i < entries.size(); i ++) {
-            Map.Entry<String, String> headerEntry = entries.get(i);
-            HeaderItem headerItem = new HeaderItem();
-            headerItem.getKeyField().setText(headerEntry.getKey());
-            headerItem.getValueField().setText(headerEntry.getValue());
-            headerItem.getRemoveButton().setDisable(entries.size() == 1);
-            headersBox.getHeadersContent().getChildren().add(headerItem);
-        }
+        ObservableMap<String, String> headers = FXCollections.observableMap(
+                query.getHeaders().isEmpty() ? Map.of("", "") : query.getHeaders()
+        );
+        headersBox.headersProperty().set(headers);
     }
 
     public void setOutputPane(OutputPane outputPane) {

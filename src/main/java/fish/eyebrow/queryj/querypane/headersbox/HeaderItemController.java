@@ -4,9 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-
-import java.util.List;
 
 public class HeaderItemController {
     @FXML
@@ -17,34 +14,37 @@ public class HeaderItemController {
     private TextField valueField;
     @FXML
     private Button removeButton;
+    private HeadersBox headersBox;
+
+    private String updatedKey = null;
+
+    @FXML
+    private void initialize() {
+        keyField.focusedProperty().addListener((__, prev, current) -> {
+            if (!prev && current) {
+                // When focusing the keyField, persist the value.
+                updatedKey = keyField.getText();
+                return;
+            }
+            // When blurring the keyField, remove the old value, and put the new one.
+            headersBox.removeHeader(updatedKey);
+            headersBox.putHeader(keyField.getText(), valueField.getText());
+        });
+        valueField.focusedProperty().addListener((__, ___, focused) -> {
+            // Put the header with the new value on blur.
+            if (focused) return;
+            headersBox.putHeader(keyField.getText(), valueField.getText());
+        });
+    }
 
     @FXML
     private void createNewHeader() {
-        VBox headersBoxContent = (VBox) headerItem.getParent();
-
-        HeadersBox headersBox = (HeadersBox) headersBoxContent.getParent().getParent().getParent();
-        List<HeaderItem> headerItems = headersBox.getHeaderItems();
-
-        HeaderItem lastHeaderItem = headerItems.get(headerItems.size() - 1);
-        if (lastHeaderItem.getValueField().getText().isEmpty() || lastHeaderItem.getKeyField().getText().isEmpty()) {
-            return;
-        }
-
-        headersBoxContent.getChildren().add(new HeaderItem());
-        headerItems.forEach(h -> h.getRemoveButton().setDisable(false));
+        headersBox.putHeader("", "");
     }
 
     @FXML
     private void removeHeader() {
-        VBox headersBoxContent = (VBox) headerItem.getParent();
-        if (headersBoxContent.getChildren().size() < 2) return;
-
-        headersBoxContent.getChildren().remove(headerItem);
-
-        if (headersBoxContent.getChildren().size() == 1) {
-            HeaderItem headerItem = (HeaderItem) headersBoxContent.getChildren().get(0);
-            headerItem.getRemoveButton().setDisable(true);
-        }
+        headersBox.removeHeader(keyField.getText());
     }
 
     public TextField getKeyField() {
@@ -57,5 +57,9 @@ public class HeaderItemController {
 
     public Button getRemoveButton() {
         return removeButton;
+    }
+
+    public void setHeadersBox(HeadersBox headersBox) {
+        this.headersBox = headersBox;
     }
 }
