@@ -8,8 +8,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.*?>
 <fx:root type="VBox" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-         AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-         fx:controller="fish.eyebrow.queryj.querypane.QueryPaneController">
+         AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
     <HBox spacing="4.0">
         <ComboBox fx:id="methodSelect"/>
         <TextField fx:id="urlField" onAction="#sendRequest" promptText="https://example.org" HBox.hgrow="ALWAYS"/>

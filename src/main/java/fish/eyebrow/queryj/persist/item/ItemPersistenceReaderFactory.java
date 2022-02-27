@@ -24,8 +24,7 @@ public class ItemPersistenceReaderFactory {
                 stateItem -> {
                     for (String tab : stateItem.tabs()) {
                         QueryTreeItem.Query query = TreeViewUtil.queryFromName(queryTree.getRoot(), tab);
-                        QueryPane queryPane = new QueryPane(query);
-                        queryPane.setOutputPane(outputPane);
+                        QueryPane queryPane = new QueryPane(query, outputPane);
                         queryTabPane.getTabs().add(new Tab(tab, queryPane));
                     }
                     queryTabPane.getSelectionModel().select(stateItem.currentTab());

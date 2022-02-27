@@ -12,7 +12,7 @@ import javafx.scene.control.TabPane;
 import java.io.IOException;
 import java.util.List;
 
-public class QueryViewController extends Control {
+public class QueryView extends Control {
     @FXML
     private TabPane queryTabPane;
     @FXML
