@@ -6,7 +6,8 @@ import java.io.IOException;
 import java.net.URL;
 
 public class FXMLLoaderUtil {
-    private FXMLLoaderUtil() {}
+    private FXMLLoaderUtil() {
+    }
 
     public static FXMLLoader loadFromResource(Object root, URL resource) {
         FXMLLoader fxmlLoader = new FXMLLoader(resource);

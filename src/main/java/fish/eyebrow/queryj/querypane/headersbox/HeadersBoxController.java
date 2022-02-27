@@ -22,7 +22,7 @@ public class HeadersBoxController {
             // Remove deleted children.
             headersContent.getChildren().removeIf(child ->
                     !(child instanceof HeaderItem headerItem) ||
-                    !headers.containsKey(headerItem.getKeyField().getText())
+                            !headers.containsKey(headerItem.getKeyField().getText())
             );
 
             // Update or insert new children.

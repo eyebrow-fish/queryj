@@ -2,11 +2,10 @@ package fish.eyebrow.queryj.persist.item;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import fish.eyebrow.queryj.persist.Writer;
 
 import java.util.Map;
 
-public class QueryTreeItemWriter implements Writer<QueryTreeItem> {
+public class QueryTreeItemWriter implements ItemWriter<QueryTreeItem> {
     @Override
     public JsonObject write(QueryTreeItem queryTreeItem) {
         if (queryTreeItem instanceof QueryTreeItem.QueryGroup group) {

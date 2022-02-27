@@ -1,17 +1,16 @@
 package fish.eyebrow.queryj;
 
-import fish.eyebrow.queryj.persist.PersistenceLoader;
 import fish.eyebrow.queryj.persist.ScheduledPersistenceWriter;
-import fish.eyebrow.queryj.persist.item.QueryTreeItem;
+import fish.eyebrow.queryj.persist.item.ItemPersistenceReaderFactory;
+import fish.eyebrow.queryj.persist.item.ItemPersistenceWriterFactory;
 import fish.eyebrow.queryj.querypane.OutputPane;
 import fish.eyebrow.queryj.querytree.QueryTree;
 import javafx.fxml.FXML;
 import javafx.scene.control.Control;
 import javafx.scene.control.TabPane;
-import javafx.scene.control.TreeItem;
 
 import java.io.IOException;
-import java.util.Optional;
+import java.util.List;
 
 public class QueryViewController extends Control {
     @FXML
@@ -26,10 +25,12 @@ public class QueryViewController extends Control {
         queryTree.setQueryTabPane(queryTabPane);
         queryTree.setOutputPane(outputPane);
 
-        TreeItem<QueryTreeItem> treeItem = PersistenceLoader.getInstance().loadQueryTree();
-        ScheduledPersistenceWriter.getInstance().startWithSupplier(() ->
-                Optional.ofNullable(queryTree.getRoot()).map(TreeItem::getValue)
-        );
-        queryTree.setRoot(treeItem);
+        ItemPersistenceReaderFactory.queryTree(queryTree).read();
+        ItemPersistenceReaderFactory.stateItem(queryTree, outputPane, queryTabPane).read();
+
+        new ScheduledPersistenceWriter(List.of(
+                ItemPersistenceWriterFactory.queryTree(queryTree),
+                ItemPersistenceWriterFactory.stateItemBuilder(queryTabPane)
+        )).start();
     }
 }

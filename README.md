@@ -13,7 +13,7 @@ advantage for my use case, so the technologies I chose here stuck.
 A list of features and features to-be.
 
 - [X] Easy to use and simple UI
-- [ ] Seamless persistence *(in progress)*
+- [X] Seamless persistence
 - [ ] Authentication handlers
 - [ ] JSON editor
 - [ ] GraphQL editor

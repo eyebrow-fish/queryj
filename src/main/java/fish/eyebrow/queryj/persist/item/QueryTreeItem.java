@@ -6,7 +6,9 @@ import java.util.Objects;
 
 sealed public interface QueryTreeItem extends Cloneable {
     String getName();
+
     void setName(String name);
+
     Object clone() throws CloneNotSupportedException;
 
     final class QueryGroup implements QueryTreeItem {
@@ -129,8 +131,8 @@ sealed public interface QueryTreeItem extends Cloneable {
             if (o == null || getClass() != o.getClass()) return false;
             Query query = (Query) o;
             return Objects.equals(name, query.name) && Objects.equals(method, query.method) &&
-                   Objects.equals(url, query.url) && Objects.equals(body, query.body) &&
-                   Objects.equals(headers, query.headers);
+                    Objects.equals(url, query.url) && Objects.equals(body, query.body) &&
+                    Objects.equals(headers, query.headers);
         }
 
         @Override

@@ -1,28 +1,29 @@
 package fish.eyebrow.queryj.persist.item;
 
-import com.google.gson.*;
-import fish.eyebrow.queryj.persist.Loader;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class QueryTreeItemLoader implements Loader<QueryTreeItem> {
+public class QueryTreeItemReader implements ItemReader<QueryTreeItem> {
     @Override
-    public QueryTreeItem load(String source) {
+    public QueryTreeItem read(String source) {
         JsonObject element = new Gson().fromJson(source, JsonObject.class);
-        return load(element);
+        return read(element);
     }
 
-    @Override
-    public QueryTreeItem load(JsonElement element) {
+    private QueryTreeItem read(JsonElement element) {
         JsonObject object = element.getAsJsonObject();
 
         if (object.has("children")) {
             JsonArray jsonChildren = object.getAsJsonArray("children");
             ArrayList<QueryTreeItem> children = new ArrayList<>();
             for (JsonElement child : jsonChildren) {
-                children.add(new QueryTreeItemLoader().load(child));
+                children.add(new QueryTreeItemReader().read(child));
             }
             String name = object.get("name").getAsString();
             return new QueryTreeItem.QueryGroup(name, children);

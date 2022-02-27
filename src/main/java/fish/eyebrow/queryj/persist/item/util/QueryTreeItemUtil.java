@@ -4,7 +4,8 @@ import fish.eyebrow.queryj.persist.item.QueryTreeItem;
 import javafx.scene.control.TreeItem;
 
 public class QueryTreeItemUtil {
-    private QueryTreeItemUtil() {}
+    private QueryTreeItemUtil() {
+    }
 
     public static TreeItem<QueryTreeItem> makeTreeItem(QueryTreeItem queryTreeItem) {
         if (queryTreeItem instanceof QueryTreeItem.QueryGroup group) {
